@@ -1,24 +1,73 @@
-import { Button, Text, TextInput, View, Image } from 'react-native';
-import { style } from './style/styles';
-import { listAnimals } from './data/animals';
+import { Text, TextInput, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { style } from './assets/style/styles';
+import { listAnimals } from './assets/data/animals';
 import { AnimalModel } from './models/animal.model';
 
 export default function App() {
 
   return (
-    <View style={style.container}>
-     <View style={style.containerTextInput}>
-      <TextInput style={style.textInput}
-        placeholder="Recherche..."
-      />
-     </View>
-
-     {/* <View> */}
-      <View>
-        <Image source={{ uri: "https://i.pinimg.com/originals/69/2e/64/692e6421912e29184674dd58ef9f5e18.jpg" }} />
-      </View>
-     {/* </View> */}
-    </View>
+	<View style = {style.container}>
+		<View style = {style.containerTextInput}>
+			<TextInput style = {style.textInput}
+				placeholder="Rechercher ..."
+			/>
+		</View>
+		<View>
+			<ScrollView horizontal = {true} style = {style.containerListImageRound}>
+			{
+				listAnimals.map((animal: AnimalModel) => (
+					<View key = {animal.id} style = {style.elementImageRound}>
+						<Image source = {{ uri: animal.image }}
+							style = {style.imageRound} />
+					</View>
+				))
+			}
+			</ScrollView>
+		</View>
+		<View style = {style.containerAnimalLists}>
+			<View style = {style.containerAnimalListsHeadText}>
+				<Text style = {style.animalHeadText}>Liste d'animaux</Text>
+			</View>
+			<View>
+				<ScrollView horizontal = {true} style = {style.containerCard}>
+					{
+						listAnimals.map((animal: AnimalModel) => (
+							<View key = {animal.id} style = {style.elementCard}>
+								<Image source = {{ uri: animal.image }}
+									style = {style.imageCard} />
+								<View style = {style.descriptionCard}>
+									<Text style = {style.descriptionNomCard}>{animal.nom}</Text>
+									<Text style = {style.containerDescriptionAutreCard}>
+										<Text style = {style.descriptionAutreCard}>Couleur:</Text> {animal.couleur}
+									</Text>
+									<Text style = {style.containerDescriptionAutreCard}>
+										<Text style = {style.descriptionAutreCard}>Type:</Text> {animal.type}
+									</Text>
+								</View>
+								<View style = {style.containerEditBtn}>
+									<TouchableOpacity style = {style.editBtn}>
+										<Image source={require('./images/edit.png')}
+											style = {style.imageEditBtn} 
+										/>
+									</TouchableOpacity>
+									<TouchableOpacity style = {style.editBtn}>
+										<Image source={require('./images/delete.png')}
+											style = {style.imageEditBtn} 
+										/>
+									</TouchableOpacity>
+								</View>
+							</View>
+						))
+					}
+				</ScrollView>
+			</View>
+		</View>
+		<View style = {style.containerAddBtn}>
+			<TouchableOpacity style = {style.addBtn}>
+				<Text style = {style.textAddBtn}>+</Text>
+			</TouchableOpacity>
+		</View>
+	</View>
   );
 }
 
